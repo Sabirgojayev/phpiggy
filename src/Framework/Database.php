@@ -40,15 +40,23 @@ class Database
         return $this;
     }
 
-    public function count() {
+    public function count()
+    {
         return $this->stmt->fetchColumn();
     }
 
-    public function find() {
+    public function find()
+    {
         return $this->stmt->fetch();
     }
 
-    public function id() {
-       return $this->connection->lastInsertId();
+    public function id()
+    {
+        return $this->connection->lastInsertId();
+    }
+
+    public function findAll()
+    {
+        return $this->stmt->fetchAll();
     }
 }
