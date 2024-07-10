@@ -36,7 +36,6 @@ class Validator
                 $errors[$fieldName][] = $ruleValidator->getMessage($formData, $fieldName, $ruleParams);
             }
         }
-
         if (count($errors)) {
             throw new ValidationException($errors);
         }
