@@ -29,4 +29,45 @@ class TransactionController
 
         redirectTo('/');
     }
+
+    public function editView(array $params)
+    {
+        $transaction = $this->transactionService->getUserTransaction($params['transaction']);
+
+        if (!$transaction) {
+            redirectTo('/');
+        }
+
+        echo $this->view->render('transactions/edit.php', [
+            'transaction' => $transaction
+        ]);
+    }
+
+    public function edit(array $params)
+    {
+        $transaction = $this->transactionService->getUserTransaction($params['transaction']);
+
+        if (!$transaction) {
+            redirectTo('/');
+        }
+
+        $this->validatorService->validateTransaction($_POST);
+
+        $this->transactionService->update($_POST, $params['transaction']);
+
+        redirectTo($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete(array $params)
+    {
+        $transaction = $this->transactionService->getUserTransaction($params['transaction']);
+
+        if (!$transaction) {
+            redirectTo('/');
+        }
+
+        $this->transactionService->delete((int) $params['transaction']);
+
+        redirectTo('/');
+    }
 }

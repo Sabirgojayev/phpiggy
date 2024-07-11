@@ -52,4 +52,45 @@ class TransactionService
         )->count();
         return [$transactions, $transactionCount];
     }
+
+    public function getUserTransaction(string $id)
+    {
+        return $this->db->query(
+            "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') as formatted_date
+            FROM transactions
+            WHERE id = :id AND user_id = :user_id",
+            [
+                'id' => $id,
+                'user_id' => $_SESSION['user']
+            ]
+        )->find();
+    }
+
+    public function update(array $data, string $id)
+    {
+        $formattedDate = "{$data['date']} 00:00:00";
+
+        $this->db->query(
+            "UPDATE transactions
+            SET description = :description, amount = :amount, date = :date
+            WHERE user_id = :user_id AND id = :id",
+            [
+                'user_id' => $_SESSION['user'],
+                'id' => $id,
+                'description' => $data['description'],
+                'amount' => $data['amount'],
+                'date' => $formattedDate
+            ]
+        );
+    }
+
+    public function delete(int $id) {
+        $this->db->query(
+            "DELETE FROM transactions WHERE id = :id AND user_id = :user_id",
+            [
+                'id' => $id,
+                'user_id' => $_SESSION['user']
+            ]
+        );
+    }
 }
