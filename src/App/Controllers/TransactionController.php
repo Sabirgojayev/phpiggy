@@ -60,12 +60,6 @@ class TransactionController
 
     public function delete(array $params)
     {
-        $transaction = $this->transactionService->getUserTransaction($params['transaction']);
-
-        if (!$transaction) {
-            redirectTo('/');
-        }
-
         $this->transactionService->delete((int) $params['transaction']);
 
         redirectTo('/');
